@@ -1,0 +1,76 @@
+﻿<Window x:Class="TaskList.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="500"
+        MinHeight="150" MinWidth="300"
+        TextOptions.TextFormattingMode="Display"       
+        TextOptions.TextRenderingMode="ClearType"
+        SnapsToDevicePixels="True"
+        RenderOptions.BitmapScalingMode="HighQuality" 
+        UseLayoutRounding="True">
+
+    <Window.DataContext>
+        <Binding Path="Main" Source="{StaticResource Locator}" />
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                </ResourceDictionary>
+                <ResourceDictionary Source="Styles/Styles.xaml"/>
+                <ResourceDictionary Source="Views/ModelViews.xaml"/>
+                <ResourceDictionary Source="Skins/MainSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Name="TaskListModule" 
+                  Style="{DynamicResource PanelsGroupBoxStyle}"
+                  Header="Список задач: "
+                  Background="{DynamicResource LeftSideBrush}"
+                  Foreground="{DynamicResource MainForegroundBrush}">
+            <ListBox Style="{StaticResource {x:Type ListBox}}"
+                     ItemsSource="{Binding SortedTasks}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Visible"
+                     HorizontalContentAlignment="Stretch"
+                     Background="Transparent"
+                     BorderThickness="0">
+                <ListBox.Resources>
+                </ListBox.Resources>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" >
+                        <Style.Resources>
+                        </Style.Resources>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Name="Border"  SnapsToDevicePixels="true" Width="Auto">
+                                        <ContentPresenter/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </GroupBox>
+        <GroupBox Grid.Column="1" Name="CreateTaskModule" 
+                  Style="{DynamicResource PanelsGroupBoxStyle}"
+                  Header="Создание задачи:"
+                  Background="{DynamicResource RigthSideBrush}"
+                  Foreground="{DynamicResource SecondaryForegroundBrush}">
+            <Border SnapsToDevicePixels="true" Width="Auto">
+                <ContentPresenter Content="{Binding NewTask}"/>
+            </Border>
+        </GroupBox>
+    </Grid>
+</Window>
